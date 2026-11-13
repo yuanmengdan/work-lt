@@ -665,7 +665,7 @@ function App(){
  h(Form,{layout:'horizontal',labelCol:{flex:'112px'},wrapperCol:{flex:'auto'},style:{paddingTop:16}},
  field('结算方式','method',h(Radio.Group,{value:value.method,onChange:e=>change('method',e.target.value)},h(Radio,{value:'pre'},'预付费'),h(Radio,{value:'post'},'后付费'))),
  value.method==='post'&&field('结算周期','cycle',h(Select,{value:value.cycle,placeholder:'请选择结算周期',onChange:v=>change('cycle',v),options:[{value:'week',label:'按周'},{value:'month',label:'按月'}],style:{width:'100%'}})),
- field('合作模式','mode',h(Radio.Group,{value:value.mode,onChange:e=>change('mode',e.target.value)},h(Radio,{value:'purchase'},'采销模式'),value.method==='post'&&h(Radio,{value:'cps'},'CPS 模式')),{tooltip:{title:'采销模式：用户支付款由渠道收取；CPS 模式：用户支付款由路通收取。',overlayStyle:{maxWidth:360}}}),
+ field('合作模式','mode',h(Radio.Group,{value:value.mode,onChange:e=>change('mode',e.target.value)},h(Radio,{value:'purchase'},'采销模式'),h(Radio,{value:'cps',disabled:value.method==='pre'},'CPS 模式')),{tooltip:{title:h(React.Fragment,null,'采销模式：用户支付款由渠道收取；',h('br'),'CPS 模式：用户支付款由路通收取。'),overlayStyle:{maxWidth:360}}}),
  value.mode==='purchase'&&field('支付参数','payment',value.configured?h(Space,null,h(Typography.Text,null,'已配置'),h(Button,{type:'link',onClick:()=>setPayOpen(true)},'修改')):h(Button,{type:'link',onClick:()=>setPayOpen(true)},'去配置')))),
  h(Modal,{title:'支付参数配置',open:payOpen,width:440,onCancel:()=>setPayOpen(false),onOk:()=>{setValue(v=>({...v,configured:true}));setErrors(e=>({...e,payment:undefined}));setPayOpen(false);},okText:'确定',cancelText:'取消',maskClosable:false}));
 }
